@@ -10,6 +10,7 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 from dash_extensions import Lottie       # pip install dash-extensions
+#from dash_extensions.enrich import DashProxy
 
 from controllers.token_controller import TokenController
 from controllers.polygon_api_controller import token_value, value_over_time
@@ -172,4 +173,4 @@ dbc.Container([
 
 # Run the app
 if __name__ == "__main__":
-    app.run_server(debug=True)
+    app.run_server(port=8508,debug=True)
