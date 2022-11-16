@@ -11,6 +11,12 @@ import plotly.express as px
 import plotly.graph_objects as go
 from dash_extensions import Lottie       # pip install dash-extensions
 from dash_extensions.enrich import DashProxy
+import urllib
+from pandas import json_normalize
+import requests
+from datetime import date
+from pathlib import Path
+import os
 
 from controllers.token_controller import TokenController
 from controllers.polygon_api_controller import token_value, value_over_time
@@ -21,6 +27,22 @@ DAYS = 365
 
 # Initiate the app
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.CYBORG, dbc.icons.BOOTSTRAP])
+
+#polygonscan api call matic supply
+#apikey="W18VUUFBQXFKU2B5UN3MY9721YYFMPIIXZ"
+load_dotenv()
+#dotenv_path = Path('path/to/.env')
+#load_dotenv(dotenv_path=dotenv_path)
+POLYGONSCAN_API_KEY = os.getenv('POLYGONSCAN_API_KEY')
+response_matic_supply = requests.get('https://api.polygonscan.com/api?module=stats&action=maticsupply&apikey='+POLYGONSCAN_API_KEY)
+print(response_matic_supply)
+print(response_matic_supply.json())
+matic_supply=response_matic_supply.json()
+matic=matic_supply["result"]
+print(matic_supply["result"])
+
+
+
 
 #colours
 colors = {
