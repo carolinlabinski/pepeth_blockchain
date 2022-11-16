@@ -29,10 +29,7 @@ DAYS = 365
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.CYBORG, dbc.icons.BOOTSTRAP])
 
 #polygonscan api call matic supply
-#apikey="W18VUUFBQXFKU2B5UN3MY9721YYFMPIIXZ"
 load_dotenv()
-#dotenv_path = Path('path/to/.env')
-#load_dotenv(dotenv_path=dotenv_path)
 POLYGONSCAN_API_KEY = os.getenv('POLYGONSCAN_API_KEY')
 response_matic_supply = requests.get('https://api.polygonscan.com/api?module=stats&action=maticsupply&apikey='+POLYGONSCAN_API_KEY)
 print(response_matic_supply)
@@ -41,8 +38,11 @@ matic_supply=response_matic_supply.json()
 matic=matic_supply["result"]
 print(matic_supply["result"])
 
-
-
+#format matic with commas
+my_int=  int(matic)
+print(type(my_int))
+matic_formatted = f'{my_int:,}'
+print(matic_formatted)
 
 #colours
 colors = {
@@ -135,7 +135,7 @@ dbc.Container([
             dbc.Card([
                 dbc.CardHeader(Lottie( width="67%", height="67%")),
                 dbc.CardBody([
-                    html.H6('Token value'),
+                    html.H5('Token value'),
                     html.H2(token_val),
                 ], style={'textAlign':'center'})
             ]),
@@ -146,7 +146,7 @@ dbc.Container([
             dbc.Card([
                 dbc.CardHeader(Lottie( width="67%", height="67%")),
                 dbc.CardBody([
-                    html.H6('Current block'),
+                    html.H5('Current block'),
                     html.H2(block_n),
                 ], style={'textAlign':'center'})
             ]),
@@ -157,8 +157,8 @@ dbc.Container([
             dbc.Card([
                 dbc.CardHeader(Lottie( width="67%", height="67%")),
                 dbc.CardBody([
-                    html.H6('Token value'),
-                    html.H2(token_val),
+                    html.H5('Matic supply (MATIC)'),
+                    html.H5(matic_formatted),
                 ], style={'textAlign':'center'})
             ]),
         ], width=4, 
