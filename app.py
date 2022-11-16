@@ -10,7 +10,7 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 from dash_extensions import Lottie       # pip install dash-extensions
-#from dash_extensions.enrich import DashProxy
+from dash_extensions.enrich import DashProxy
 
 from controllers.token_controller import TokenController
 from controllers.polygon_api_controller import token_value, value_over_time
