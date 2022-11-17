@@ -133,33 +133,20 @@ df=pd.DataFrame(response_json["Time Series (Digital Currency Monthly)"])
 print(df)
 df_new=df.transpose()
 print(df_new)
-print("df_new_monthly")
-print("date column")
-print(df_new.iloc[:, 0])
-print(type(df_new.iloc[:, 0]))
 
+print("print index")
+idx = df_new.index
+print(idx)
+print(type(idx))
 
-#Transpose Data Frame & Set First Column as Header
-#df[cols].set_index("1a. open (USD)").stack().head()
-
-
-  
 # iterating the columns
 print("column names")
 for col in df_new.columns:
     print(col)
+
 #graph candlestick
-
-#df["timeStamp"]=pd.to_datetime(df["timeStamp"],unit="s")
-
-#print(type(df_new.iloc[:, 0]))
-
-#df_new.iloc[:, :1]=pd.to_datetime(df_new.iloc[:, :1])
-#print(df_new.iloc[:, :1])
-#print(type(df_new.iloc[:, :1]))
-
-#time=df_new.iloc[:, 0]
-fig = go.Figure(data=[go.Candlestick(x=df_new.iloc[:, 0],
+#fig = go.Figure(data=[go.Candlestick(x=df_new.iloc[:, 0],
+fig = go.Figure(data=[go.Candlestick(x=idx,
                open=df_new['1a. open (USD)'],
                high=df_new['2a. high (USD)'],
               low=df_new['3a. low (USD)'],
@@ -169,7 +156,6 @@ fig.update_layout(
     title="Monthly MATIC candlestick chart")
 
 # Daily MATIC query
-
 url = "https://alpha-vantage.p.rapidapi.com/query"
 
 querystring_daily = {"function":"DIGITAL_CURRENCY_DAILY","symbol":"MATIC","market":"EUR"}
@@ -191,8 +177,11 @@ print(df_newest)
 
 
 #graph candlestick
-
-fig_daily_candlestick = go.Figure(data=[go.Candlestick(x=df_newest.iloc[:, 0],
+idx_daily = df_newest.index
+print("check daily index")
+print(idx_daily)
+print(df_newest)
+fig_daily_candlestick = go.Figure(data=[go.Candlestick(x=idx_daily,
                open=df_newest['1a. open (EUR)'],
                high=df_newest['2a. high (EUR)'],
               low=df_newest['3a. low (EUR)'],
