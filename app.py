@@ -1,7 +1,7 @@
 # Import modules
 import dash
 from dash import dcc, html
-from dash_elements.graph import size_graph, time_graph, token_value_over_time
+from dash_elements.graph import size_graph, time_graph, token_value_over_time, transactions_graph
 from dotenv import load_dotenv
 import json
 import numpy as np
@@ -20,7 +20,7 @@ import os
 
 from controllers.token_controller import TokenController
 from controllers.polygon_api_controller import token_value, value_over_time
-from controllers.block_controller import block_number, blocks_prop
+from controllers.block_controller import block_number, blocks_prop, block_transactions_count
 
 SIZE = 100
 DAYS = 365
@@ -39,7 +39,7 @@ matic=matic_supply["result"]
 print(matic_supply["result"])
 
 #format matic with commas
-my_int=  int(matic)
+my_int=  int(matic)*10**(-18)
 print(type(my_int))
 matic_formatted = f'{my_int:,}'
 print(matic_formatted)
@@ -63,13 +63,13 @@ under_header_component = html.H5("Check out the latest stats", className = "text
 token = html.Div(token_value_over_time(365), style={'backgroundColor' : colors['background']}),
 size = size_graph(SIZE, 'lines'),
 time = time_graph(SIZE, 'lines'),
+#transactions=transactions_graph(SIZE,"lines")
+
         # time_graph(SIZE, 'bar'),
 block_n = html.Span(block_number(), className="justify-content-center"),
 token_val = html.Span(token_value(), className="text-center d-flex justify-content-center"),
 # total_supply = total_supply(),
 # market_cap = market_cap(),
-
-
 
 #navbar
 navbar = dbc.NavbarSimple(
@@ -128,15 +128,16 @@ dbc.Row(navbar),
 dbc.Container([
     
         jumbotron,
-     
+         
 
-    dbc.Row([
+            dbc.Row([
         dbc.Col([
             dbc.Card([
                 dbc.CardHeader(Lottie( width="67%", height="67%")),
                 dbc.CardBody([
-                    html.H5('Token value'),
-                    html.H2(token_val),
+                    html.H5('Token value in $'),
+                     html.Br(),
+                    html.H4(token_val),
                 ], style={'textAlign':'center'})
             ]),
         ], width=4, 
@@ -147,7 +148,8 @@ dbc.Container([
                 dbc.CardHeader(Lottie( width="67%", height="67%")),
                 dbc.CardBody([
                     html.H5('Current block'),
-                    html.H2(block_n),
+                     html.Br(),
+                    html.H4(block_n),
                 ], style={'textAlign':'center'})
             ]),
         ], width=4, 
@@ -158,7 +160,8 @@ dbc.Container([
                 dbc.CardHeader(Lottie( width="67%", height="67%")),
                 dbc.CardBody([
                     html.H5('Matic supply (MATIC)'),
-                    html.H5(matic_formatted),
+                    html.Br(),
+                    html.H4(matic_formatted),
                 ], style={'textAlign':'center'})
             ]),
         ], width=4, 
@@ -166,9 +169,7 @@ dbc.Container([
                 
         ]),
 
-
-         
-        dbc.Row(
+            dbc.Row(
             [dbc.Col(
                 token
                 ), 

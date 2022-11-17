@@ -2,6 +2,7 @@ from dash import dcc, html
 from controllers.block_controller import blocks_prop
 from controllers.polygon_api_controller import value_over_time
 from datetime import date, timedelta
+from controllers.block_controller import block_number, blocks_prop, block_transactions_count
 
 import numpy as np
 
@@ -19,14 +20,6 @@ def size_graph(size, graph_type='lines'):
     x = [e[0] for e in v]
     y = [e[1] for e in v]
     return graph(x, y, f"Block Size (last {size} blocks)", graph_type)
-
-
-def time_graph(size, graph_type='lines'):
-    col = blocks_prop(size, 'timestamp')
-    v = sorted(col['timestamp'].values(), key=lambda a: a[0])
-    x = [e[0] for e in v]
-    y = np.diff([e[1] for e in v])
-    return graph(x, y, f"Block mining time (last {size} blocks)", graph_type)
 
 
 def time_graph(size, graph_type='lines'):
@@ -60,3 +53,11 @@ def graph(x, y, title, graph_type='lines'):
         ]
     )
     return element
+
+
+def transactions_graph(size, graph_type='lines'):
+    col = block_transactions_count(size)
+    v = sorted(col['transaction'].values(), key=lambda a: a[0])
+    x = [e[0] for e in v]
+    y = np.diff([e[1] for e in v])
+    return graph(x, y, f"Block mining time (last {size} blocks)", graph_type)
