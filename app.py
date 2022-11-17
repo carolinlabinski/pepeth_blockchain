@@ -93,7 +93,6 @@ transactions=transaction_list_json["result"]
 print(transactions)
 print(type(transactions))
 
-
 df=pd.DataFrame(transaction_list_json["result"]).sort_values(by=['timeStamp'], ascending=False)
 df["timeStamp"]=pd.to_datetime(df["timeStamp"],unit="s")
 print(df["timeStamp"])
@@ -104,15 +103,10 @@ print(df["gasUsed"])
 x_time=df["timeStamp"]
 y_gasused=df["gasUsed"]
 
-
 #fig = px.bar(df, x=df["timeStamp"], y=df["gasUsed"], title='Polygon Transactions')
 #fig.show()
 
 #polgygon_barchart=px.bar(df, x=df["timeStamp"], y=df["gasUsed"], title='Polygon Transactions')
-
-
-
-
 
 #api alphavantage
 ALPHA_VANTAGE_API_KEY = os.getenv('ALPHA_VANTAGE_API_KEY')
@@ -167,16 +161,13 @@ headers = {
 
 response_daily = requests.request("GET", url, headers=headers, params=querystring_daily)
 response_json_daily=response_daily.json()
-# print(response_json)
-# print(response_json.keys())
 df_daily=pd.DataFrame(response_json_daily["Time Series (Digital Currency Daily)"])
 print(df_daily)
 print(type(df_daily["2022-11-17"]))
 df_newest=df_daily.transpose()
 print(df_newest)
 
-
-#graph candlestick
+#graph candlestick daily
 idx_daily = df_newest.index
 print("check daily index")
 print(idx_daily)
@@ -190,9 +181,6 @@ fig_daily_candlestick = go.Figure(data=[go.Candlestick(x=idx_daily,
 fig_daily_candlestick.update_layout(
     title="Daily MATIC candlestick chart")             
 
-
-
-
 #colours
 colors = {
     'black' : '#1A1B25',
@@ -201,7 +189,6 @@ colors = {
     'background' : '#333333',
     'text' : '#FFFFFF'
 }
-
 
 # Build the components
 header_component = html.H1("PEPETH : A Polygon Block Explorer", className = "text-center p-2", style = {'color': '#EFE9E7'}),
