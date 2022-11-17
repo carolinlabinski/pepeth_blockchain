@@ -114,9 +114,92 @@ y_gasused=df["gasUsed"]
 
 
 
+#api alphavantage
+ALPHA_VANTAGE_API_KEY = os.getenv('ALPHA_VANTAGE_API_KEY')
+url = "https://alpha-vantage.p.rapidapi.com/query"
 
-#binance api
-#response_binance= requests.get('')
+querystring = {"market":"USD","function":"DIGITAL_CURRENCY_MONTHLY","symbol":"MATIC"}
+
+headers = {
+    "X-RapidAPI-Key": ALPHA_VANTAGE_API_KEY,
+    "X-RapidAPI-Host": "alpha-vantage.p.rapidapi.com"
+}
+
+response = requests.request("GET", url, headers=headers, params=querystring)
+response_json=response.json()
+print(response_json)
+print(response_json.keys())
+df=pd.DataFrame(response_json["Time Series (Digital Currency Monthly)"])
+print(df)
+df_new=df.transpose()
+print(df_new)
+print("df_new_monthly")
+print("date column")
+print(df_new.iloc[:, 0])
+print(type(df_new.iloc[:, 0]))
+
+
+#Transpose Data Frame & Set First Column as Header
+#df[cols].set_index("1a. open (USD)").stack().head()
+
+
+  
+# iterating the columns
+print("column names")
+for col in df_new.columns:
+    print(col)
+#graph candlestick
+
+#df["timeStamp"]=pd.to_datetime(df["timeStamp"],unit="s")
+
+#print(type(df_new.iloc[:, 0]))
+
+#df_new.iloc[:, :1]=pd.to_datetime(df_new.iloc[:, :1])
+#print(df_new.iloc[:, :1])
+#print(type(df_new.iloc[:, :1]))
+
+#time=df_new.iloc[:, 0]
+fig = go.Figure(data=[go.Candlestick(x=df_new.iloc[:, 0],
+               open=df_new['1a. open (USD)'],
+               high=df_new['2a. high (USD)'],
+              low=df_new['3a. low (USD)'],
+              close=df_new['4a. close (USD)'])])
+
+fig.update_layout(
+    title="Monthly MATIC candlestick chart")
+
+# Daily MATIC query
+
+url = "https://alpha-vantage.p.rapidapi.com/query"
+
+querystring_daily = {"function":"DIGITAL_CURRENCY_DAILY","symbol":"MATIC","market":"EUR"}
+
+headers = {
+    "X-RapidAPI-Key": ALPHA_VANTAGE_API_KEY,
+    "X-RapidAPI-Host": "alpha-vantage.p.rapidapi.com"
+}
+
+response_daily = requests.request("GET", url, headers=headers, params=querystring_daily)
+response_json_daily=response_daily.json()
+# print(response_json)
+# print(response_json.keys())
+df_daily=pd.DataFrame(response_json_daily["Time Series (Digital Currency Daily)"])
+print(df_daily)
+print(type(df_daily["2022-11-17"]))
+df_newest=df_daily.transpose()
+print(df_newest)
+
+
+#graph candlestick
+
+fig_daily_candlestick = go.Figure(data=[go.Candlestick(x=df_newest.iloc[:, 0],
+               open=df_newest['1a. open (EUR)'],
+               high=df_newest['2a. high (EUR)'],
+              low=df_newest['3a. low (EUR)'],
+              close=df_newest['4a. close (EUR)'])])
+
+fig_daily_candlestick.update_layout(
+    title="Daily MATIC candlestick chart")             
 
 
 
@@ -295,6 +378,8 @@ dbc.Container([
                 className='mt-4 mb-4'),
                 
         ]),
+        dcc.Graph(figure=fig),
+        dcc.Graph(figure=fig_daily_candlestick),
         
         # dbc.Row(
         # [dbc.Col(), dbc.Col()]
