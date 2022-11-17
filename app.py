@@ -333,9 +333,9 @@ dbc.Container([
             dbc.Card([
                 dbc.CardHeader(Lottie( width="67%", height="67%")),
                 dbc.CardBody([
-                    html.H5('Safe Gas Price'),
+                    html.H5('Fast Gas Price'),
                      html.Br(),
-                    html.H4(safe_gas_price),
+                    html.H4(fast_gas_price),
                 ], style={'textAlign':'center'})
             ]),
         ], width=4, 
