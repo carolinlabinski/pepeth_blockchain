@@ -44,6 +44,83 @@ print(type(my_int))
 matic_formatted = f'{my_int:,}'
 print(matic_formatted)
 
+response_gas_price= requests.get('https://api.polygonscan.com/api?module=gastracker&action=gasoracle&apikey='+POLYGONSCAN_API_KEY)
+
+gas_price_json=response_gas_price.json()
+print(gas_price_json)
+print(type(gas_price_json))
+print(gas_price_json.keys())
+gas_prices=gas_price_json["result"]
+print(gas_prices)
+propose_gas_price=gas_prices["ProposeGasPrice"]
+safe_gas_price=gas_prices["SafeGasPrice"]
+usd_price=gas_prices["UsdPrice"]
+fast_gas_price=gas_prices["FastGasPrice"]
+last_block=gas_prices["LastBlock"]
+fast_gas_price=gas_prices["FastGasPrice"]
+gas_used_ratio=gas_prices["gasUsedRatio"]
+suggest_base_fee=gas_prices["suggestBaseFee"]
+
+usd_price_float=float(usd_price)
+print(propose_gas_price)
+print(safe_gas_price)
+print(usd_price)
+print(fast_gas_price)
+print(gas_used_ratio)
+print("type usd dollar")
+print(type(usd_price_float))
+print(type(usd_price))
+
+#matic market cap
+#matic_market_cap=usd_price_float*float(matic_formatted)
+matic_market_cap=usd_price_float*my_int
+print("matic_market_cap")
+print(usd_price)
+print(matic_formatted)
+print(my_int)
+print(matic_market_cap)
+
+#Get a list of 'Normal' Transactions/number of transactions By Address
+#Returns the list of transactions performed by an address, with optional pagination
+
+response_transaction_list= requests.get('https://api.polygonscan.com/api?module=account&action=txlist&address=0x0000000000000000000000000000000000001010&startblock=0&endblock=99999999&page=10&offset=20&sort=asc&apikey='+POLYGONSCAN_API_KEY)
+
+transaction_list_json=response_transaction_list.json()
+print(transaction_list_json)
+print(type(transaction_list_json))
+print(transaction_list_json.keys())
+transactions=transaction_list_json["result"]
+print(transactions)
+print(type(transactions))
+
+
+df=pd.DataFrame(transaction_list_json["result"]).sort_values(by=['timeStamp'], ascending=False)
+df["timeStamp"]=pd.to_datetime(df["timeStamp"],unit="s")
+print(df["timeStamp"])
+print(df)
+print(df["timeStamp"])
+print(df["gasUsed"])
+
+x_time=df["timeStamp"]
+y_gasused=df["gasUsed"]
+
+
+#fig = px.bar(df, x=df["timeStamp"], y=df["gasUsed"], title='Polygon Transactions')
+#fig.show()
+
+#polgygon_barchart=px.bar(df, x=df["timeStamp"], y=df["gasUsed"], title='Polygon Transactions')
+
+
+
+
+
+
+#binance api
+#response_binance= requests.get('')
+
+
+
+
 #colours
 colors = {
     'black' : '#1A1B25',
@@ -147,9 +224,9 @@ dbc.Container([
             dbc.Card([
                 dbc.CardHeader(Lottie( width="67%", height="67%")),
                 dbc.CardBody([
-                    html.H5('Current block'),
+                    html.H5('Matic Market Cap in $'),
                      html.Br(),
-                    html.H4(block_n),
+                    html.H4(matic_market_cap),
                 ], style={'textAlign':'center'})
             ]),
         ], width=4, 
@@ -179,6 +256,45 @@ dbc.Container([
                 ) 
             ]
         ),
+
+                    dbc.Row([
+        dbc.Col([
+            dbc.Card([
+                dbc.CardHeader(Lottie( width="67%", height="67%")),
+                dbc.CardBody([
+                    html.H5('Current block'),
+                     html.Br(),
+                    html.H4(block_n),
+                ], style={'textAlign':'center'})
+            ]),
+        ], width=4, 
+                className='mt-4 mb-4'),
+        
+                dbc.Col([
+            dbc.Card([
+                dbc.CardHeader(Lottie( width="67%", height="67%")),
+                dbc.CardBody([
+                    html.H5('Safe Gas Price'),
+                     html.Br(),
+                    html.H4(safe_gas_price),
+                ], style={'textAlign':'center'})
+            ]),
+        ], width=4, 
+                className='mt-4 mb-4'),
+                
+                             dbc.Col([
+            dbc.Card([
+                dbc.CardHeader(Lottie( width="67%", height="67%")),
+                dbc.CardBody([
+                    html.H5('Proposed Gas Price'),
+                    html.Br(),
+                    html.H4(propose_gas_price),
+                ], style={'textAlign':'center'})
+            ]),
+        ], width=4, 
+                className='mt-4 mb-4'),
+                
+        ]),
         
         # dbc.Row(
         # [dbc.Col(), dbc.Col()]
