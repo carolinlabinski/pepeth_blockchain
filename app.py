@@ -31,11 +31,8 @@ app = dash.Dash(__name__, external_stylesheets=[dbc.themes.CYBORG, dbc.icons.BOO
 #polygonscan api call matic supply
 load_dotenv()
 POLYGONSCAN_API_KEY = os.getenv('POLYGONSCAN_API_KEY')
-<<<<<<< HEAD
 response_matic_supply = requests.get(f'https://api.polygonscan.com/api?module=stats&action=maticsupply&apikey={POLYGONSCAN_API_KEY}')
-=======
-response_matic_supply = requests.get(f"https://api.polygonscan.com/api?module=stats&action=maticsupply&apikey={POLYGONSCAN_API_KEY}")
->>>>>>> 26474192deee9fe3bda71417f94f3fd9b4a35bec
+
 print(response_matic_supply)
 print(response_matic_supply.json())
 matic_supply=response_matic_supply.json()
@@ -49,10 +46,6 @@ matic_formatted = f'{my_int:,}'
 print(matic_formatted)
 
 response_gas_price= requests.get(f"https://api.polygonscan.com/api?module=gastracker&action=gasoracle&apikey={POLYGONSCAN_API_KEY}")
-<<<<<<< HEAD
-=======
-
->>>>>>> 26474192deee9fe3bda71417f94f3fd9b4a35bec
 gas_price_json=response_gas_price.json()
 print(gas_price_json)
 print(type(gas_price_json))
@@ -90,11 +83,7 @@ print(matic_market_cap)
 #Get a list of 'Normal' Transactions/number of transactions By Address
 #Returns the list of transactions performed by an address, with optional pagination
 
-<<<<<<< HEAD
-response_transaction_list= requests.get(f'https://api.polygonscan.com/api?module=account&action=txlist&address=0x0000000000000000000000000000000000001010&startblock=0&endblock=99999999&page=10&offset=20&sort=asc&apikey={POLYGONSCAN_API_KEY}')
-=======
 response_transaction_list= requests.get(f"https://api.polygonscan.com/api?module=account&action=txlist&address=0x0000000000000000000000000000000000001010&startblock=0&endblock=99999999&page=10&offset=20&sort=asc&apikey={POLYGONSCAN_API_KEY}")
->>>>>>> 26474192deee9fe3bda71417f94f3fd9b4a35bec
 
 transaction_list_json=response_transaction_list.json()
 print(transaction_list_json)
