@@ -31,7 +31,7 @@ app = dash.Dash(__name__, external_stylesheets=[dbc.themes.CYBORG, dbc.icons.BOO
 #polygonscan api call matic supply
 load_dotenv()
 POLYGONSCAN_API_KEY = os.getenv('POLYGONSCAN_API_KEY')
-response_matic_supply = requests.get('https://api.polygonscan.com/api?module=stats&action=maticsupply&apikey='+POLYGONSCAN_API_KEY)
+response_matic_supply = requests.get(f"https://api.polygonscan.com/api?module=stats&action=maticsupply&apikey={POLYGONSCAN_API_KEY}")
 print(response_matic_supply)
 print(response_matic_supply.json())
 matic_supply=response_matic_supply.json()
@@ -44,7 +44,7 @@ print(type(my_int))
 matic_formatted = f'{my_int:,}'
 print(matic_formatted)
 
-response_gas_price= requests.get('https://api.polygonscan.com/api?module=gastracker&action=gasoracle&apikey='+POLYGONSCAN_API_KEY)
+response_gas_price= requests.get(f"https://api.polygonscan.com/api?module=gastracker&action=gasoracle&apikey={POLYGONSCAN_API_KEY}")
 
 gas_price_json=response_gas_price.json()
 print(gas_price_json)
@@ -83,7 +83,7 @@ print(matic_market_cap)
 #Get a list of 'Normal' Transactions/number of transactions By Address
 #Returns the list of transactions performed by an address, with optional pagination
 
-response_transaction_list= requests.get('https://api.polygonscan.com/api?module=account&action=txlist&address=0x0000000000000000000000000000000000001010&startblock=0&endblock=99999999&page=10&offset=20&sort=asc&apikey='+POLYGONSCAN_API_KEY)
+response_transaction_list= requests.get(f"https://api.polygonscan.com/api?module=account&action=txlist&address=0x0000000000000000000000000000000000001010&startblock=0&endblock=99999999&page=10&offset=20&sort=asc&apikey={POLYGONSCAN_API_KEY}")
 
 transaction_list_json=response_transaction_list.json()
 print(transaction_list_json)
@@ -147,7 +147,7 @@ fig = go.Figure(data=[go.Candlestick(x=idx,
               close=df_new['4a. close (USD)'])])
 
 fig.update_layout(
-    title="Monthly MATIC candlestick chart")
+    title="Monthly MATIC variations")
 
 # Daily MATIC query
 url = "https://alpha-vantage.p.rapidapi.com/query"
@@ -179,29 +179,7 @@ fig_daily_candlestick = go.Figure(data=[go.Candlestick(x=idx_daily,
               close=df_newest['4a. close (EUR)'])])
 
 fig_daily_candlestick.update_layout(
-    title="Daily MATIC candlestick chart")  
-
-
-
-#graph market cap polygon in usd monthly
-#market_cap_usd= float(df_new['6. market cap (USD)'].sort_values(ascending=True)) 
-print("type market cap")
-print(type(df_new.iloc[0]))
-print("type y Achse candlestick")
-print(type(df_newest['1a. open (EUR)']))
-print("market cap usd")
-#print(market_cap_usd)
-
-#fig2 = go.Figure([go.Scatter(x=idx_daily, y=df_newest['6. market cap (USD)'])])
-#fig2.show()
-
-#fig2 = px.line(df_new, x=idx, y=market_cap_usd)
-#fig2 = px.scatter(x=idx, y=df_newest['6. market cap (USD)'])
-#fig2.show()
-
-#fig = px.bar(df, x=df["timeStamp"], y=df["gasUsed"], title='Polygon Transactions')
-#fig.show()    
-
+    title="Daily MATIC variations")             
 
 #colours
 colors = {
@@ -231,18 +209,18 @@ token_val = html.Span(token_value(), className="text-center d-flex justify-conte
 
 #navbar
 navbar = dbc.NavbarSimple(
-    children=[
-        dbc.DropdownMenu(
-            children=[
-                dbc.DropdownMenuItem("How it works", href="works.html"),
-                dbc.DropdownMenuItem("Polygon stats", href="#"),
-                dbc.DropdownMenuItem("Other crypto stats", href="#"),
-            ],
-            nav=True,
-            in_navbar=True,
-            label="Explore",
-        ),
-    ],
+    # children=[
+    #     dbc.DropdownMenu(
+    #         children=[
+    #             dbc.DropdownMenuItem("How it works", href="works.html"),
+    #             dbc.DropdownMenuItem("Polygon stats", href="#"),
+    #             dbc.DropdownMenuItem("Other crypto stats", href="#"),
+    #         ],
+    #         nav=True,
+    #         in_navbar=True,
+    #         label="Explore",
+    #     ),
+    # ],
     brand="PEPETH",
     brand_href="#",
     color="dark",
@@ -261,11 +239,17 @@ jumbotron = html.Div(
             ),
             html.Hr(className="my-2 text-center"),
             html.P(
-                "The place to find all Polygon statistics",
+                "The place to find all Polygon-related statistics and make informed decisions.",
                 className="text-center"
             ),
             html.P(
-                dbc.Button("Learn more", color="primary"), className="lead text-center text-center"
+                # dbc.Button("Learn more", color="primary" href='https://plot.ly', target="_blank"), className="lead text-center text-center"
+                dbc.Button(
+                            "Learn more",
+                            id="link-centered", 
+                            href='https://docs.google.com/presentation/d/1S6xHhCGgrPj6rJPk6DEEEaYV0xdLJskLgEyEFIbuX_8/edit#slide=id.p'
+                        ), className="lead text-center text-center",
+                
             ),
         
         ],
@@ -355,9 +339,9 @@ dbc.Container([
             dbc.Card([
                 dbc.CardHeader(Lottie( width="67%", height="67%")),
                 dbc.CardBody([
-                    html.H5('Fast Gas Price'),
+                    html.H5('Safe Gas Price'),
                      html.Br(),
-                    html.H4(fast_gas_price),
+                    html.H4(safe_gas_price),
                 ], style={'textAlign':'center'})
             ]),
         ], width=4, 
@@ -376,8 +360,9 @@ dbc.Container([
                 className='mt-4 mb-4'),
                 
         ]),
-        dcc.Graph(figure=fig),
-        dcc.Graph(figure=fig_daily_candlestick),
+                    
+        html.Div(dcc.Graph(figure=fig), className='mb-4'), 
+        html.Div(dcc.Graph(figure=fig_daily_candlestick), className='mt-4 mb-4'),
         
         # dbc.Row(
         # [dbc.Col(), dbc.Col()]

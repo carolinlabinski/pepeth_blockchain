@@ -1,19 +1,20 @@
 ### Pepeth
 
-this is a work in progress
+Welcome to our project. This is a work in progress.
+Pepeth is a Polygon-based block explorer that facilitates the lecture of Polygon-related data. 
 
 &nbsp;
 
 #### Run the project
 
-requirements : 
+Requirements : 
 
     - python3
     - a virtual env (ideally)
 
 &nbsp;
 
-to install dependencies, run
+To install dependencies, run
 
 ```bash 
 pip install -r requirements.txt
@@ -22,7 +23,7 @@ pip install -r requirements.txt
 &nbsp;
 
 
-populate the `sample.env` with correct API keys and rename it `.env`
+To enjoy the app, go to https://polygon.io/, https://api.polygonscan.com/ and https://alpha-vantage.p.rapidapi.com,  get free keys and populate the `sample.env` with correct API keys before renaming it `.env`
 
 run the web app with 
 ```bash
