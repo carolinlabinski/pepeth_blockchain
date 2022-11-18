@@ -183,12 +183,15 @@ fig_daily_candlestick.update_layout(
 
 
 #coingeckoapi
+COINGECKO_API_KEY = os.getenv('COINGECKO_API_KEY')
 url = "https://coingecko.p.rapidapi.com/simple/price"
 
 querystring = {"vs_currencies":"USD","ids":"matic-network,ethereum,bitcoin"}
 
+ALPHA_VANTAGE_API_KEY
+
 headers = {
-    "X-RapidAPI-Key": "844aae97e6msh89963429a225a64p15ad00jsn8342cf786b1f",
+    "X-RapidAPI-Key": COINGECKO_API_KEY,
     "X-RapidAPI-Host": "coingecko.p.rapidapi.com"
 }
 
