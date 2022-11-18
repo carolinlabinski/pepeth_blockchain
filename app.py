@@ -179,7 +179,29 @@ fig_daily_candlestick = go.Figure(data=[go.Candlestick(x=idx_daily,
               close=df_newest['4a. close (EUR)'])])
 
 fig_daily_candlestick.update_layout(
-    title="Daily MATIC candlestick chart")             
+    title="Daily MATIC candlestick chart")  
+
+
+
+#graph market cap polygon in usd monthly
+#market_cap_usd= float(df_new['6. market cap (USD)'].sort_values(ascending=True)) 
+print("type market cap")
+print(type(df_new.iloc[0]))
+print("type y Achse candlestick")
+print(type(df_newest['1a. open (EUR)']))
+print("market cap usd")
+#print(market_cap_usd)
+
+#fig2 = go.Figure([go.Scatter(x=idx_daily, y=df_newest['6. market cap (USD)'])])
+#fig2.show()
+
+#fig2 = px.line(df_new, x=idx, y=market_cap_usd)
+#fig2 = px.scatter(x=idx, y=df_newest['6. market cap (USD)'])
+#fig2.show()
+
+#fig = px.bar(df, x=df["timeStamp"], y=df["gasUsed"], title='Polygon Transactions')
+#fig.show()    
+
 
 #colours
 colors = {
