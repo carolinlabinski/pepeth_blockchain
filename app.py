@@ -281,7 +281,7 @@ jumbotron = html.Div(
 # Design the layout
 app.layout = html.Div([
 
-dbc.Row(navbar),
+#dbc.Row(navbar),
 
 dbc.Container([
     
