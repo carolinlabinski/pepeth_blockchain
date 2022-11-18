@@ -179,7 +179,47 @@ fig_daily_candlestick = go.Figure(data=[go.Candlestick(x=idx_daily,
               close=df_newest['4a. close (EUR)'])])
 
 fig_daily_candlestick.update_layout(
-    title="Daily MATIC variations")             
+    title="Daily MATIC variations") 
+
+
+#coingeckoapi
+url = "https://coingecko.p.rapidapi.com/simple/price"
+
+querystring = {"vs_currencies":"USD","ids":"matic-network,ethereum,bitcoin"}
+
+headers = {
+    "X-RapidAPI-Key": "844aae97e6msh89963429a225a64p15ad00jsn8342cf786b1f",
+    "X-RapidAPI-Host": "coingecko.p.rapidapi.com"
+}
+
+response_prices = requests.request("GET", url, headers=headers, params=querystring)
+response_json_prices=response_prices.json()
+response_json_prices.keys()
+
+print(response_json_prices)
+print(response_json_prices.keys())
+
+
+last_btc_price=response_json_prices.get("bitcoin")
+last_btc_price_value=last_btc_price.get("usd")
+
+last_matic_price=response_json_prices.get("matic-network")
+last_matic_price_value=last_matic_price.get("usd")
+
+last_eth_price=response_json_prices.get("ethereum")
+last_eth_price_value=last_eth_price.get("usd")
+
+#test prices
+print(last_eth_price_value)
+print(last_btc_price_value)
+print(last_matic_price_value)
+ETH="Ethereum"
+BTC="Bitcoin"
+MATIC="Matic"
+
+df1=pd.DataFrame(dict(blockchain=[BTC,ETH,MATIC]))
+df2=pd.DataFrame(dict(USD=[last_btc_price_value,last_eth_price_value,last_matic_price_value]))
+blockchain_prices_bar_chart = px.bar(df1, x=df1.blockchain, y=df2.USD, color=df2.USD,text_auto=True)            
 
 #colours
 colors = {
@@ -363,6 +403,7 @@ dbc.Container([
                     
         html.Div(dcc.Graph(figure=fig), className='mb-4'), 
         html.Div(dcc.Graph(figure=fig_daily_candlestick), className='mt-4 mb-4'),
+        dcc.Graph(figure=blockchain_prices_bar_chart),
         
         # dbc.Row(
         # [dbc.Col(), dbc.Col()]
