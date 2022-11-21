@@ -222,7 +222,17 @@ MATIC="Matic"
 
 df1=pd.DataFrame(dict(blockchain=[BTC,ETH,MATIC]))
 df2=pd.DataFrame(dict(USD=[last_btc_price_value,last_eth_price_value,last_matic_price_value]))
-blockchain_prices_bar_chart = px.bar(df1, x=df1.blockchain, y=df2.USD, color=df2.USD,text_auto=True)            
+blockchain_prices_bar_chart = px.bar(df1, x=df1.blockchain, y=df2.USD, text_auto=True)   
+
+
+
+
+
+
+
+
+
+         
 
 #colours
 colors = {
@@ -320,7 +330,7 @@ dbc.Container([
             dbc.Card([
                 dbc.CardHeader(Lottie( width="67%", height="67%")),
                 dbc.CardBody([
-                    html.H5('Token value in $'),
+                    html.H5('MATIC value ($USD)'),
                      html.Br(),
                     html.H4(token_val),
                 ], style={'textAlign':'center'})
@@ -332,7 +342,7 @@ dbc.Container([
             dbc.Card([
                 dbc.CardHeader(Lottie( width="67%", height="67%")),
                 dbc.CardBody([
-                    html.H5('Matic Market Cap in $'),
+                    html.H5('MATIC market cap ($USD)'),
                      html.Br(),
                     html.H4(matic_market_cap),
                 ], style={'textAlign':'center'})
@@ -344,7 +354,7 @@ dbc.Container([
             dbc.Card([
                 dbc.CardHeader(Lottie( width="67%", height="67%")),
                 dbc.CardBody([
-                    html.H5('Matic supply (MATIC)'),
+                    html.H5('MATIC total supply'),
                     html.Br(),
                     html.H4(matic_formatted),
                 ], style={'textAlign':'center'})
@@ -370,7 +380,7 @@ dbc.Container([
             dbc.Card([
                 dbc.CardHeader(Lottie( width="67%", height="67%")),
                 dbc.CardBody([
-                    html.H5('Current block'),
+                    html.H5('Current block #'),
                      html.Br(),
                     html.H4(block_n),
                 ], style={'textAlign':'center'})
@@ -382,7 +392,7 @@ dbc.Container([
             dbc.Card([
                 dbc.CardHeader(Lottie( width="67%", height="67%")),
                 dbc.CardBody([
-                    html.H5('Safe Gas Price'),
+                    html.H5('Safe Gas Price (Gwei)'),
                      html.Br(),
                     html.H4(safe_gas_price),
                 ], style={'textAlign':'center'})
@@ -394,7 +404,7 @@ dbc.Container([
             dbc.Card([
                 dbc.CardHeader(Lottie( width="67%", height="67%")),
                 dbc.CardBody([
-                    html.H5('Proposed Gas Price'),
+                    html.H5('Proposed Gas Price (Gwei)'),
                     html.Br(),
                     html.H4(propose_gas_price),
                 ], style={'textAlign':'center'})
